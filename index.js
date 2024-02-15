@@ -1,14 +1,15 @@
-let autoFeeder = document.getElementById("showUI").checked;
+let autoFeeder = document.getElementById("autoFeeder").checked;
 
-function toggleCheckboxValue(id) {
+function toggleFeeder(id) {
   let checkbox = document.getElementById(id);
   autoFeeder = checkbox.checked;
-
 }
+
+
 
 let ShowUi = document.getElementById("showUI").checked;
 
-function toggleCheckboxValueUi(id) {
+function toggleShowui(id) {
   let checkbox = document.getElementById(id);
   ShowUi = checkbox.checked;
 }
@@ -103,13 +104,28 @@ function acquireImage() {
   }
 }
 
-function scanAndSaveIndividualPDFs() {
+function scanandSave1() {
+  if (DWObject) {
+    DWObject.IfShowFileDialog = true;
+    DWObject.SaveAllAsPDF(
+      "C:temp\\images.pdf",
+      function () {
+        console.log("multipage pdf saved successfully");
+      },
+      function (errCode, errString) {
+        console.error("error in multipage pdf:", errString);
+      }
+    );
+  }
+}
+
+function scanandSave2() {
   if (DWObject) {
     DWObject.IfShowFileDialog = false;
     if (DWObject.HowManyImagesInBuffer > 0) {
       for (let i = 0; i < DWObject.HowManyImagesInBuffer; i++) {
-        let pdfFilePath = `D:\\temp\\image_${i + 1}.pdf`; 
-        (function (imageIndex) { 
+        let pdfFilePath = `C:\\temp\\image_${i + 1}.pdf`; 
+        (function (imageIndex) {
           DWObject.SaveAsPDF(
             pdfFilePath,
             imageIndex,
@@ -120,7 +136,7 @@ function scanAndSaveIndividualPDFs() {
               console.error(code, string);
             }
           );
-        })(i); 
+        })(i);
       }
       console.log("Done");
     } else {
@@ -130,7 +146,7 @@ function scanAndSaveIndividualPDFs() {
 }
 
 
-function removeBlankImages() {
+function removeImage() {
   if (DWObject) {
     if (DWObject.IsBlankImageExpress(DWObject.CurrentImageIndexInBuffer)) {
       DWObject.RemoveImage(DWObject.CurrentImageIndexInBuffer);
@@ -140,7 +156,7 @@ function removeBlankImages() {
   }
 }
 
-function removeAllImages() {
+function removeImages() {
   if (DWObject) {
     DWObject.RemoveAllImages();
   }

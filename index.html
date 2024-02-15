@@ -22,14 +22,14 @@
             <input
             type="checkbox"
             id="showUI"
-            onchange="toggleCheckboxValueUi('showUI')" />
+            onchange="toggleShowui('showUI')" />
             <label for="showUI">Show UI</label>
           </div>
           <div class="autoFeeder">
             <input
           id="autoFeeder"
           type="checkbox"
-          onchange="toggleCheckboxValue('autoFeeder')" />
+          onchange="toggleFeeder('autoFeeder')" />
           <label for="autoFeeder">AutoFeeder</label>
         </div>
       </div>
@@ -73,21 +73,21 @@
           <button
             type="button"
             value="Scan"
-            onclick="scanAndSaveMultiPagePDF()">
+            onclick="scanandSave1()">
             Scan and Save1
           </button>
 
           <button
             type="button"
             value="Scan"
-            onclick="scanAndSaveIndividualPDFs()">
+            onclick="scanandSave2()">
             Scan and Save2
           </button>
 
-          <button type="button" onclick="removeBlankImages()">
+          <button type="button" onclick="removeImage()">
             Remove Blank Images
           </button>
-          <button type="button" onclick="removeAllImages()">
+          <button type="button" onclick="removeImages()">
             Remove All Images
           </button>
         </div>
