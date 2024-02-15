@@ -103,38 +103,24 @@ function acquireImage() {
   }
 }
 
-function scanAndSaveMultiPagePDF() {
-  if (DWObject) {
-    DWObject.IfShowFileDialog = true;
-    DWObject.SaveAllAsPDF(
-      "E:dynamsoft\\images.pdf",
-      function () {
-        console.log("multipage pdf saved successfully");
-      },
-      function (errCode, errString) {
-        console.error("error in multipage pdf:", errString);
-      }
-    );
-  }
-}
-
 function scanAndSaveIndividualPDFs() {
   if (DWObject) {
     DWObject.IfShowFileDialog = false;
     if (DWObject.HowManyImagesInBuffer > 0) {
       for (let i = 0; i < DWObject.HowManyImagesInBuffer; i++) {
-        let imageIndex = i;
-        let pdfFilePath = `doc\\image_${i + 1}.pdf`;
-        DWObject.SaveAsPDF(
-          pdfFilePath,
-          imageIndex,
-          function () {
-            console.log("Success:", pdfFilePath);
-          },
-          function (code, string) {
-            console.error(code, string);
-          }
-        );
+        let pdfFilePath = `D:\\temp\\image_${i + 1}.pdf`; 
+        (function (imageIndex) { 
+          DWObject.SaveAsPDF(
+            pdfFilePath,
+            imageIndex,
+            function () {
+              console.log("Success:", pdfFilePath);
+            },
+            function (code, string) {
+              console.error(code, string);
+            }
+          );
+        })(i); 
       }
       console.log("Done");
     } else {
@@ -142,6 +128,7 @@ function scanAndSaveIndividualPDFs() {
     }
   }
 }
+
 
 function removeBlankImages() {
   if (DWObject) {
