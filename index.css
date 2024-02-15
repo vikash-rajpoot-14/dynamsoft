@@ -1,0 +1,118 @@
+* {
+    margin: 0;
+    padding: 0;
+    /* background-color: black; */
+  }
+  
+  #main-container {
+    padding: 5rem 5rem;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    column-gap: 2rem;
+    width: 100vw;
+    background-color: aliceblue;
+  }
+  
+  .btn {
+    margin-right: 8px;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    row-gap: 10px;
+}
+
+#pixelType {
+    padding: 1rem 0px 1rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inputcolor {
+    margin-left: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+}
+.inputcolor input {
+    margin: 0px 5px;
+}
+  
+  .source {
+    display: flex;
+    flex-direction: column;
+    margin: 12px 8px;
+    align-items: start;
+    gap: 4px;
+  }
+  .source >label{
+    font-weight: 600;
+    font-size: 1.4rem;
+  }
+  #source{
+    font-size: 0.9rem;
+    border-radius: 0.2rem;
+    border: 2px solid rgb(107, 107, 107);
+  }
+  
+  .ui-checkbox{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 30px;
+
+  }
+
+  .ShowUI {
+    padding: 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .autoFeeder{
+    padding: 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  
+  #left-container {
+    /* border: 1px solid black; */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #right-container {
+    width: 40rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid black;
+  }
+
+  button{
+    color: white;
+    border-radius: 5px;
+    border: 2px solid black;
+    padding: 0.3rem 0.8rem;
+    background-color: rgb(75, 171, 255);
+    cursor: pointer;
+  }
+  button:hover{
+    background-color: rgb(73, 148, 214);
+  }
+
+  .resolutions > label{
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  #resolution{
+    width: 4rem;
+    border: 2px solid rgb(107, 107, 107);
+  }

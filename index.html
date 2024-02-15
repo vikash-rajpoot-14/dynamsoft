@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dynamsoft</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+
+  <body>
+    <div id="main-container">
+      <div id="left-container">
+        <div id="dwtcontrolContainer"></div>
+      </div>
+      <div id="right-container">
+        <div class="source">
+          <label for="source">Select Source:</label>
+          <select id="source"></select>
+        </div>
+        <div class="ui-checkbox">
+          <div class="ShowUI">
+            <input
+            type="checkbox"
+            id="showUI"
+            onchange="toggleCheckboxValueUi('showUI')" />
+            <label for="showUI">Show UI</label>
+          </div>
+          <div class="autoFeeder">
+            <input
+          id="autoFeeder"
+          type="checkbox"
+          onchange="toggleCheckboxValue('autoFeeder')" />
+          <label for="autoFeeder">AutoFeeder</label>
+        </div>
+      </div>
+        <div id="pixelType">
+          <label for="pixelType">Pixel Type:</label>
+          <div class="inputcolor">
+            <input type="radio" name="pixelType" id="blackandwhite"
+            value="blackAndWhite" checked /> Black & White
+            <input
+              type="radio"
+              name="pixelType"
+              id="gray"
+              value="gray" />
+            Gray
+            <input
+              type="radio"
+              name="pixelType"
+              id="color"
+              value="color" />
+            color
+          </div>
+        </div>
+        <div class="resolutions">
+          <label for="resolution">Resolution:</label>
+          <select id="resolution" onchange="updateResolution()">
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="150">150</option>
+            <option value="200">200</option>
+            <option value="300">300</option>
+            <option value="400">400</option>
+            <option value="500">500</option>
+            <option value="600">600</option>
+          </select>
+        </div>
+        <div class="btn">
+          <button type="button" value="Scan" onclick="acquireImage()">
+            Scan
+          </button>
+
+          <button
+            type="button"
+            value="Scan"
+            onclick="scanAndSaveMultiPagePDF()">
+            Scan and Save1
+          </button>
+
+          <button
+            type="button"
+            value="Scan"
+            onclick="scanAndSaveIndividualPDFs()">
+            Scan and Save2
+          </button>
+
+          <button type="button" onclick="removeBlankImages()">
+            Remove Blank Images
+          </button>
+          <button type="button" onclick="removeAllImages()">
+            Remove All Images
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="Resources/dynamsoft.webtwain.initiate.js"></script>
+    <script src="Resources/dynamsoft.webtwain.config.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>
