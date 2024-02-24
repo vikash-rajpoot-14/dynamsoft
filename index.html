@@ -37,19 +37,19 @@
           <label for="pixelType">Pixel Type:</label>
           <div class="inputcolor">
             <input type="radio" name="pixelType" id="blackandwhite"
-            value="blackAndWhite" checked /> Black & White
+            value="BW" checked /> Black and White
             <input
               type="radio"
               name="pixelType"
               id="gray"
-              value="gray" />
-            Gray
+              value="GRAY" />
+            Grayscale
             <input
               type="radio"
               name="pixelType"
               id="color"
-              value="color" />
-            color
+              value="RGB" />
+            Color
           </div>
         </div>
         <div class="resolutions">
@@ -66,7 +66,7 @@
           </select>
         </div>
         <div class="btn">
-          <button type="button" value="Scan" onclick="acquireImage()">
+          <button type="button" value="Scan" onclick="Scan()">
             Scan
           </button>
 
@@ -74,14 +74,14 @@
             type="button"
             value="Scan"
             onclick="scanandSave1()">
-            Scan and Save1
+            Scan and Save In Single PDF
           </button>
 
           <button
             type="button"
             value="Scan"
             onclick="scanandSave2()">
-            Scan and Save2
+            Scan and Save as Seperate PDF 
           </button>
 
           <button type="button" onclick="removeImage()">

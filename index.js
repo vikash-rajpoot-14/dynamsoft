@@ -5,16 +5,12 @@ function toggleFeeder(id) {
   autoFeeder = checkbox.checked;
 }
 
-
-
 let ShowUi = document.getElementById("showUI").checked;
 
 function toggleShowui(id) {
   let checkbox = document.getElementById(id);
   ShowUi = checkbox.checked;
 }
-
-
 
 let DWObject;
 
@@ -36,7 +32,7 @@ function populateSources() {
   let sourceDropdown = document.getElementById("source");
   sourceDropdown.innerHTML = "";
 
-  DWObject.IfShowUI = false; 
+  DWObject.IfShowUI = ShowUi;
   DWObject.OpenSourceManager();
   let sourceCount = DWObject.SourceCount;
   for (let i = 0; i < sourceCount; i++) {
@@ -56,21 +52,88 @@ function updateResolution() {
 }
 
 const radioButtons = document.getElementsByName("pixelType");
-let selectedPixelValue = document.querySelector('input[name="pixelType"]:checked').value;
+let selectedPixelValue = document.querySelector(
+  'input[name="pixelType"]:checked'
+).value;
 radioButtons.forEach(function (radioButton) {
   radioButton.addEventListener("change", function () {
-    const selectedValue = document.querySelector('input[name="pixelType"]:checked').value;
+    const selectedValue = document.querySelector(
+      'input[name="pixelType"]:checked'
+    ).value;
     selectedPixelValue = selectedValue;
   });
 });
 
-
 function ImagesAquire() {
   return DWObject.AcquireImageAsync({
     IfCloseSourceAfterAcquire: true,
+    IfShowUI: ShowUi,
+    PixelType: Dynamsoft.DWT.EnumDWT_PixelType[`TWPT_${selectedPixelValue}`],
+    Resolution: parseInt(selectedValueResolution),
+    IfFeederEnabled: autoFeeder,
+    SelectSourceByIndex: document.getElementById("source").value,
   })
     .then(function (result) {
-      console.log("image acquired :", result);
+      if (DWObject.HowManyImagesInBuffer > 0) {
+        return;
+      } else {
+        console.warn("No image to scan.");
+      }
+    })
+    .catch(function (e) {
+      console.error("error during in image acquiring: " + e.message);
+    })
+    .finally(function () {
+      DWObject.CloseSourceAsync().catch(function (e) {
+        console.error(e);
+      });
+    });
+}
+
+function Scan() {
+  if (!DWObject) {
+    console.error("DWObject is not initialized.");
+    return;
+  }
+
+  if (ShowUi) {
+    DWObject.OpenSource();
+    ImagesAquire();
+  } else {
+    ImagesAquire();
+  }
+}
+
+async function scanandSave1() {
+  if (!DWObject) {
+    console.error("DWObject is not initialized.");
+    return;
+  }
+
+  if (ShowUi) {
+    DWObject.OpenSource();
+  }
+
+  DWObject.AcquireImageAsync({
+    IfCloseSourceAfterAcquire: true,
+    IfShowUI: ShowUi,
+    PixelType: Dynamsoft.DWT.EnumDWT_PixelType[`TWPT_${selectedPixelValue}`],
+    Resolution: parseInt(selectedValueResolution),
+    IfFeederEnabled: autoFeeder,
+    SelectSourceByIndex: document.getElementById("source").value,
+  })
+    .then(function (result) {
+      // console.log("image acquired :", result);
+        DWObject.IfShowFileDialog = true;
+        DWObject.SaveAllAsPDF(
+          "C:temp\\images.pdf",
+          function () {
+            console.log("multipage pdf saved successfully");
+          },
+          function (errCode, errString) {
+            console.error("error in multipage pdf:", errString);
+          }
+        );
       if (DWObject.HowManyImagesInBuffer > 0) {
       } else {
         console.warn("No image to scan.");
@@ -86,51 +149,36 @@ function ImagesAquire() {
     });
 }
 
-function acquireImage() {
-  if (DWObject) {
-    DWObject.SelectSourceByIndex(document.getElementById("source").value);
-    DWObject.IfShowUI = ShowUi;
-    DWObject.IfFeederEnabled = autoFeeder;
-    DWObject.PixelType = selectedPixelValue;
-    DWObject.Resolution = parseInt(selectedValueResolution);
-  }
-  if (ShowUi) {
-    if (DWObject) {
-      DWObject.OpenSource();
-      ImagesAquire();
-    }
-  } else {
-    ImagesAquire();
-  }
-}
-
-function scanandSave1() {
-  if (DWObject) {
-    DWObject.IfShowFileDialog = true;
-    DWObject.SaveAllAsPDF(
-      "C:temp\\images.pdf",
-      function () {
-        console.log("multipage pdf saved successfully");
-      },
-      function (errCode, errString) {
-        console.error("error in multipage pdf:", errString);
-      }
-    );
-  }
-}
-
 function scanandSave2() {
-  if (DWObject) {
+  if (!DWObject) {
+    console.error("DWObject is not initialized.");
+    return;
+  }
+
+  if (ShowUi) {
+    DWObject.OpenSource();
+  }
+
+  DWObject.AcquireImageAsync({
+    IfCloseSourceAfterAcquire: true,
+    IfShowUI: ShowUi,
+    PixelType: Dynamsoft.DWT.EnumDWT_PixelType[`TWPT_${selectedPixelValue}`],
+    Resolution: parseInt(selectedValueResolution),
+    IfFeederEnabled: autoFeeder,
+    SelectSourceByIndex: document.getElementById("source").value,
+  })
+    .then(function (result) {
+      // console.log("image acquired :", result);
     DWObject.IfShowFileDialog = false;
     if (DWObject.HowManyImagesInBuffer > 0) {
       for (let i = 0; i < DWObject.HowManyImagesInBuffer; i++) {
-        let pdfFilePath = `C:\\temp\\image_${i + 1}.pdf`; 
+        let pdfFilePath = `C:\\temp\\image_${i + 1}.pdf`;
         (function (imageIndex) {
           DWObject.SaveAsPDF(
             pdfFilePath,
             imageIndex,
             function () {
-              console.log("Success:", pdfFilePath);
+              console.log("File save in localdrive C :", pdfFilePath);
             },
             function (code, string) {
               console.error(code, string);
@@ -142,9 +190,16 @@ function scanandSave2() {
     } else {
       console.log("no image to scan");
     }
-  }
+})
+.catch(function (e) {
+  console.error("error during in image acquiring: " + e.message);
+})
+.finally(function () {
+  DWObject.CloseSourceAsync().catch(function (e) {
+    console.error(e);
+  });
+});
 }
-
 
 function removeImage() {
   if (DWObject) {
